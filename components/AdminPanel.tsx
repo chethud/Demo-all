@@ -2,27 +2,17 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { CATEGORIES, type Category, type Template } from "@/lib/types";
+import type { Template } from "@/lib/types";
 
 type FormState = {
   name: string;
-  slug: string;
   vercelUrl: string;
-  category: Category;
-  description: string;
-  thumbnail: string;
-  tags: string;
   featured: boolean;
 };
 
 const emptyForm: FormState = {
   name: "",
-  slug: "",
   vercelUrl: "",
-  category: "Other",
-  description: "",
-  thumbnail: "",
-  tags: "",
   featured: false,
 };
 
@@ -120,12 +110,9 @@ export function AdminPanel() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name,
-          slug: form.slug || slugify(form.name),
+          slug: slugify(form.name),
           vercelUrl: form.vercelUrl,
-          category: form.category,
-          description: form.description,
-          thumbnail: form.thumbnail || undefined,
-          tags: form.tags,
+          category: "Other",
           featured: form.featured,
         }),
       });
@@ -245,32 +232,18 @@ export function AdminPanel() {
       >
         <h2 className="font-display text-xl text-charcoal">Add website</h2>
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
-          <Field label="Project name" required>
+          <label className="block text-sm text-charcoal/70">
+            Project name *
             <input
               value={form.name}
-              onChange={(e) =>
-                setForm((f) => ({
-                  ...f,
-                  name: e.target.value,
-                  slug: f.slug || slugify(e.target.value),
-                }))
-              }
+              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
               className={inputClass}
-              placeholder="Mysore Silk Website"
+              placeholder="Demo 4"
               required
             />
-          </Field>
-          <Field label="Slug">
-            <input
-              value={form.slug}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, slug: slugify(e.target.value) }))
-              }
-              className={inputClass}
-              placeholder="mysore-silk"
-            />
-          </Field>
-          <Field label="Vercel URL" required className="sm:col-span-2">
+          </label>
+          <label className="block text-sm text-charcoal/70">
+            Vercel URL *
             <input
               value={form.vercelUrl}
               onChange={(e) =>
@@ -280,54 +253,8 @@ export function AdminPanel() {
               placeholder="https://your-project.vercel.app"
               required
             />
-          </Field>
-          <Field label="Category">
-            <select
-              value={form.category}
-              onChange={(e) =>
-                setForm((f) => ({
-                  ...f,
-                  category: e.target.value as Category,
-                }))
-              }
-              className={inputClass}
-            >
-              {CATEGORIES.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label="Thumbnail path (optional)">
-            <input
-              value={form.thumbnail}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, thumbnail: e.target.value }))
-              }
-              className={inputClass}
-              placeholder="/templates/mysore-silk.jpg"
-            />
-          </Field>
-          <Field label="Description" className="sm:col-span-2">
-            <textarea
-              value={form.description}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, description: e.target.value }))
-              }
-              className={`${inputClass} min-h-24`}
-              placeholder="Short description for clients"
-            />
-          </Field>
-          <Field label="Tags (comma separated)">
-            <input
-              value={form.tags}
-              onChange={(e) => setForm((f) => ({ ...f, tags: e.target.value }))}
-              className={inputClass}
-              placeholder="Luxury, Traditional"
-            />
-          </Field>
-          <label className="flex items-center gap-2 self-end pb-2 text-sm text-charcoal/70">
+          </label>
+          <label className="flex items-center gap-2 self-end pb-2 text-sm text-charcoal/70 sm:col-span-2">
             <input
               type="checkbox"
               checked={form.featured}
@@ -403,23 +330,3 @@ export function AdminPanel() {
 
 const inputClass =
   "mt-1.5 w-full rounded-xl border border-charcoal/12 bg-white px-3.5 py-2.5 text-sm text-charcoal outline-none focus:border-charcoal/30";
-
-function Field({
-  label,
-  children,
-  required,
-  className = "",
-}: {
-  label: string;
-  children: React.ReactNode;
-  required?: boolean;
-  className?: string;
-}) {
-  return (
-    <label className={`block text-sm text-charcoal/70 ${className}`}>
-      {label}
-      {required ? " *" : ""}
-      {children}
-    </label>
-  );
-}
