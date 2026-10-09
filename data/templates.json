@@ -38,5 +38,13 @@
     "description": "KSIC Mysore Silk heritage weaves — royal mills, collections, and GI-certified silk since 1912.",
     "vercelUrl": "https://ksic-demo.vercel.app/",
     "featured": false
+  },
+  {
+    "name": "Demo 6",
+    "slug": "chethu-ksic-new",
+    "category": "Fashion & Clothing",
+    "description": "KSIC Mysore Silk royal heritage — collections, atelier, and stories woven since 1912.",
+    "vercelUrl": "https://chethu-ksic-new.vercel.app/",
+    "featured": false
   }
 ]
