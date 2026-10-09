@@ -25,10 +25,10 @@
   },
   {
     "name": "Demo 4",
-    "slug": "ksic-demo-3",
-    "category": "Other",
-    "description": "Live website demo available for client preview.",
-    "vercelUrl": "https://ksic-demo-3.vercel.app/",
+    "slug": "ksic-replit-demo",
+    "category": "Fashion & Clothing",
+    "description": "Mysore Silk — a timeless heritage. Collections, craft, and royal legacy since 1912.",
+    "vercelUrl": "https://ksic-replit-demo.vercel.app/",
     "featured": false
   },
   {
@@ -49,10 +49,10 @@
   },
   {
     "name": "Demo 7",
-    "slug": "ksic-replit-demo",
-    "category": "Fashion & Clothing",
-    "description": "Mysore Silk — a timeless heritage. Collections, craft, and royal legacy since 1912.",
-    "vercelUrl": "https://ksic-replit-demo.vercel.app/",
+    "slug": "ksic-demo-3",
+    "category": "Other",
+    "description": "Live website demo available for client preview.",
+    "vercelUrl": "https://ksic-demo-3.vercel.app/",
     "featured": false
   }
 ]
