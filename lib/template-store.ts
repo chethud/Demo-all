@@ -1,5 +1,10 @@
 import { promises as fs } from "fs";
 import path from "path";
+import {
+  isGitHubStoreEnabled,
+  readTemplatesFromGitHub,
+  writeTemplatesToGitHub,
+} from "@/lib/github-templates";
 import type { Category, Template } from "@/lib/types";
 import { CATEGORIES } from "@/lib/types";
 import { isValidHttpUrl } from "@/lib/url";
@@ -15,7 +20,7 @@ export function slugify(value: string): string {
     .slice(0, 80);
 }
 
-export async function readTemplates(): Promise<Template[]> {
+async function readFromFilesystem(): Promise<Template[]> {
   const raw = await fs.readFile(DATA_PATH, "utf8");
   const parsed = JSON.parse(raw) as Template[];
   if (!Array.isArray(parsed)) {
@@ -24,8 +29,41 @@ export async function readTemplates(): Promise<Template[]> {
   return parsed;
 }
 
+async function writeToFilesystem(templates: Template[]): Promise<void> {
+  await fs.writeFile(
+    DATA_PATH,
+    `${JSON.stringify(templates, null, 2)}\n`,
+    "utf8",
+  );
+}
+
+export async function readTemplates(): Promise<Template[]> {
+  if (isGitHubStoreEnabled()) {
+    return readTemplatesFromGitHub();
+  }
+  return readFromFilesystem();
+}
+
 export async function writeTemplates(templates: Template[]): Promise<void> {
-  await fs.writeFile(DATA_PATH, `${JSON.stringify(templates, null, 2)}\n`, "utf8");
+  if (isGitHubStoreEnabled()) {
+    await writeTemplatesToGitHub(templates);
+    return;
+  }
+
+  try {
+    await writeToFilesystem(templates);
+  } catch (error) {
+    const code =
+      error && typeof error === "object" && "code" in error
+        ? String((error as { code?: string }).code)
+        : "";
+    if (code === "EROFS" || code === "EACCES") {
+      throw new Error(
+        "This host is read-only. Add GITHUB_TOKEN (and optional GITHUB_REPO) in Vercel Environment Variables so admin can save templates to GitHub.",
+      );
+    }
+    throw error;
+  }
 }
 
 export type TemplateInput = {
@@ -76,8 +114,7 @@ export function validateTemplateInput(input: TemplateInput): Template {
     slug,
     category: normalizeCategory(input.category),
     description:
-      description ||
-      "Live website demo available for client preview.",
+      description || "Live website demo available for client preview.",
     vercelUrl,
     ...(thumbnail ? { thumbnail } : {}),
     ...(tags.length ? { tags } : {}),
@@ -93,7 +130,7 @@ export async function addTemplate(input: TemplateInput): Promise<Template> {
     throw new Error(`A template with slug "${template.slug}" already exists`);
   }
 
-  templates.unshift(template);
+  templates.push(template);
   await writeTemplates(templates);
   return template;
 }

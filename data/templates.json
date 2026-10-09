@@ -14,5 +14,13 @@
     "description": "Mysore Silk heritage site — woven for generations, collections and atelier storytelling.",
     "vercelUrl": "https://v2-ksic.vercel.app/",
     "featured": false
+  },
+  {
+    "name": "Demo 3",
+    "slug": "ksicweb",
+    "category": "Fashion & Clothing",
+    "description": "Live website demo available for client preview.",
+    "vercelUrl": "https://ksicweb.vercel.app/",
+    "featured": false
   }
 ]

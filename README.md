@@ -13,11 +13,25 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Admin (add / delete websites)
 
-Open [http://localhost:3000/admin](http://localhost:3000/admin).
+Open `/admin`.
 
-Default password: set in `.env.local` as `ADMIN_PASSWORD`.
+Set `ADMIN_PASSWORD` in `.env.local` (local) and in Vercel Environment Variables (hosted).
 
-Templates are stored in `data/templates.json`. The admin page writes to that file locally.
+### Local
+Templates are saved to `data/templates.json`.
+
+### Hosted on Vercel
+Vercel’s filesystem is read-only. Admin add/delete needs a GitHub token:
+
+1. Create a GitHub Personal Access Token with `repo` access to `chethud/Demo-all`
+2. In Vercel → Project → Settings → Environment Variables, add:
+   - `ADMIN_PASSWORD` = your admin password
+   - `GITHUB_TOKEN` = your token
+   - `GITHUB_REPO` = `chethud/Demo-all` (optional, this is the default)
+   - `GITHUB_BRANCH` = `main` (optional)
+3. Redeploy
+
+Admin changes then update `data/templates.json` in GitHub live.
 
 Agency name / logo: edit `data/site.ts`.
 
