@@ -54,5 +54,13 @@
     "description": "Live website demo available for client preview.",
     "vercelUrl": "https://ksic-demo-3.vercel.app/",
     "featured": false
+  },
+  {
+    "name": "Demo 8",
+    "slug": "ksic-pi",
+    "category": "Fashion & Clothing",
+    "description": "Mysore Silk — woven for generations. Craft, collections, and heirloom storytelling.",
+    "vercelUrl": "https://ksic-pi.vercel.app/",
+    "featured": false
   }
 ]
