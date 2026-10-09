@@ -46,5 +46,13 @@
     "description": "KSIC Mysore Silk royal heritage — collections, atelier, and stories woven since 1912.",
     "vercelUrl": "https://chethu-ksic-new.vercel.app/",
     "featured": false
+  },
+  {
+    "name": "Demo 7",
+    "slug": "ksic-replit-demo",
+    "category": "Fashion & Clothing",
+    "description": "Mysore Silk — a timeless heritage. Collections, craft, and royal legacy since 1912.",
+    "vercelUrl": "https://ksic-replit-demo.vercel.app/",
+    "featured": false
   }
 ]
