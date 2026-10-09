@@ -5,47 +5,25 @@ import { useRouter } from "next/navigation";
 import type { Template } from "@/lib/types";
 import { getPrimaryCategory } from "@/lib/template-helpers";
 
-export type ViewportMode = "desktop" | "tablet" | "mobile";
-
 interface PreviewToolbarProps {
   template: Template;
   templates: Template[];
   previous: Template | null;
   next: Template | null;
-  viewport: ViewportMode;
-  onViewportChange: (mode: ViewportMode) => void;
-  fullscreen: boolean;
-  onFullscreenToggle: () => void;
-  liveUrl: string | null;
 }
-
-const viewportOptions: { id: ViewportMode; label: string; width: string }[] = [
-  { id: "desktop", label: "Desktop", width: "100%" },
-  { id: "tablet", label: "Tablet", width: "768px" },
-  { id: "mobile", label: "Mobile", width: "390px" },
-];
 
 export function PreviewToolbar({
   template,
   templates,
   previous,
   next,
-  viewport,
-  onViewportChange,
-  fullscreen,
-  onFullscreenToggle,
-  liveUrl,
 }: PreviewToolbarProps) {
   const router = useRouter();
   const primary = getPrimaryCategory(template);
 
   return (
-    <div
-      className={`z-40 border-b border-charcoal/10 bg-white ${
-        fullscreen ? "fixed inset-x-0 top-0" : "sticky top-0"
-      }`}
-    >
-      <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-3 py-3 sm:px-4 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
+    <div className="fixed inset-x-0 top-0 z-40 border-b border-charcoal/10 bg-white">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-3 px-3 py-3 sm:px-4">
         <div className="flex min-w-0 items-center gap-3">
           <Link
             href="/#templates"
@@ -74,29 +52,7 @@ export function PreviewToolbar({
           </div>
         </div>
 
-        <div
-          className="flex items-center justify-center gap-1 rounded-xl bg-[#F3F1EC] p-1"
-          role="group"
-          aria-label="Viewport size"
-        >
-          {viewportOptions.map((option) => (
-            <button
-              key={option.id}
-              type="button"
-              onClick={() => onViewportChange(option.id)}
-              className={`rounded-lg px-3 py-1.5 text-xs transition ${
-                viewport === option.id
-                  ? "bg-white text-charcoal shadow-sm"
-                  : "text-charcoal/55 hover:text-charcoal"
-              }`}
-              aria-pressed={viewport === option.id}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+        <div className="flex flex-wrap items-center gap-2 justify-end">
           <label htmlFor="template-switcher" className="sr-only">
             Switch template
           </label>
@@ -129,29 +85,6 @@ export function PreviewToolbar({
               <path d="m9 18 6-6-6-6" />
             </NavIconButton>
           </div>
-
-          <button
-            type="button"
-            onClick={onFullscreenToggle}
-            className="rounded-lg border border-charcoal/12 px-2.5 py-1.5 text-xs text-charcoal/70 transition hover:border-charcoal/25 hover:text-charcoal"
-          >
-            {fullscreen ? "Exit Fullscreen" : "Fullscreen"}
-          </button>
-
-          {liveUrl ? (
-            <a
-              href={liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg bg-charcoal px-3 py-1.5 text-xs font-medium text-white transition hover:bg-charcoal/90"
-            >
-              Open Live Website
-            </a>
-          ) : (
-            <span className="rounded-lg border border-dashed border-charcoal/15 px-3 py-1.5 text-xs text-charcoal/40">
-              URL pending
-            </span>
-          )}
         </div>
       </div>
     </div>
@@ -206,5 +139,3 @@ function NavIconButton({
     </Link>
   );
 }
-
-export { viewportOptions };

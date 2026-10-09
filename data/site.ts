@@ -4,7 +4,7 @@ import type { SiteConfig } from "@/lib/types";
 export const siteConfig: SiteConfig = {
   agencyName: "KSIC Demo",
   organizationName: "Karnataka Silk Industries Corporation",
-  galleryTitle: "KSIC • Design Gallery",
+  galleryTitle: "KSIC Website Demo",
   agencyTagline: "Design concepts for review. Each slot links to one design.",
   logoSrc: "/brand/logo.avif",
 };

@@ -48,14 +48,7 @@ export function TemplateCard({ template, number }: TemplateCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h2 className="text-lg font-semibold leading-snug text-charcoal">
-          {template.name}
-        </h2>
-        <p className="mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-charcoal/55">
-          {template.description}
-        </p>
-
-        <span className="mt-5 inline-flex w-fit items-center rounded-full bg-ready px-3.5 py-1.5 text-sm font-medium text-ready-text transition group-hover:brightness-95">
+        <span className="inline-flex w-fit items-center rounded-full bg-ready px-3.5 py-1.5 text-sm font-medium text-ready-text transition group-hover:brightness-95">
           Ready to view
         </span>
       </div>
