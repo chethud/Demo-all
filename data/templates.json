@@ -30,5 +30,13 @@
     "description": "Live website demo available for client preview.",
     "vercelUrl": "https://ksic-demo-3.vercel.app/",
     "featured": false
+  },
+  {
+    "name": "Demo 5",
+    "slug": "ksic-demo",
+    "category": "Fashion & Clothing",
+    "description": "KSIC Mysore Silk heritage weaves — royal mills, collections, and GI-certified silk since 1912.",
+    "vercelUrl": "https://ksic-demo.vercel.app/",
+    "featured": false
   }
 ]
