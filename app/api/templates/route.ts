@@ -3,9 +3,14 @@ import { requireAdmin } from "@/lib/admin-auth";
 import { addTemplate, readTemplates } from "@/lib/template-store";
 import type { Category } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const templates = await readTemplates();
-  return NextResponse.json({ templates });
+  return NextResponse.json(
+    { templates },
+    { headers: { "Cache-Control": "no-store" } },
+  );
 }
 
 export async function POST(request: Request) {
@@ -30,7 +35,7 @@ export async function POST(request: Request) {
           ? (body.tags as string[])
           : [];
 
-    const category = body.category as Category | Category[];
+    const category = (body.category as Category | Category[] | undefined) ?? "Other";
 
     const template = await addTemplate({
       name: String(body.name ?? ""),
@@ -43,7 +48,8 @@ export async function POST(request: Request) {
       featured: Boolean(body.featured),
     });
 
-    return NextResponse.json({ template }, { status: 201 });
+    const templates = await readTemplates();
+    return NextResponse.json({ template, templates }, { status: 201 });
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to add template";

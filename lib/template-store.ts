@@ -10,6 +10,17 @@ import { CATEGORIES } from "@/lib/types";
 import { isValidHttpUrl } from "@/lib/url";
 
 const DATA_PATH = path.join(process.cwd(), "data", "templates.json");
+const TMP_PATH = path.join("/tmp", "ksic-templates.json");
+
+declare global {
+  // Persists across warm serverless invocations on the same instance
+  // eslint-disable-next-line no-var
+  var __ksicTemplatesCache: Template[] | undefined;
+}
+
+function isVercelRuntime(): boolean {
+  return Boolean(process.env.VERCEL);
+}
 
 export function slugify(value: string): string {
   return value
@@ -37,33 +48,57 @@ async function writeToFilesystem(templates: Template[]): Promise<void> {
   );
 }
 
+async function readFromTmp(): Promise<Template[] | null> {
+  try {
+    const raw = await fs.readFile(TMP_PATH, "utf8");
+    const parsed = JSON.parse(raw) as Template[];
+    return Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+async function writeToTmp(templates: Template[]): Promise<void> {
+  await fs.writeFile(TMP_PATH, `${JSON.stringify(templates, null, 2)}\n`, "utf8");
+}
+
 export async function readTemplates(): Promise<Template[]> {
   if (isGitHubStoreEnabled()) {
     return readTemplatesFromGitHub();
   }
-  return readFromFilesystem();
+
+  if (globalThis.__ksicTemplatesCache) {
+    return globalThis.__ksicTemplatesCache;
+  }
+
+  if (isVercelRuntime()) {
+    const fromTmp = await readFromTmp();
+    if (fromTmp) {
+      globalThis.__ksicTemplatesCache = fromTmp;
+      return fromTmp;
+    }
+  }
+
+  const fromDisk = await readFromFilesystem();
+  globalThis.__ksicTemplatesCache = fromDisk;
+  return fromDisk;
 }
 
 export async function writeTemplates(templates: Template[]): Promise<void> {
+  globalThis.__ksicTemplatesCache = templates;
+
   if (isGitHubStoreEnabled()) {
     await writeTemplatesToGitHub(templates);
     return;
   }
 
-  try {
-    await writeToFilesystem(templates);
-  } catch (error) {
-    const code =
-      error && typeof error === "object" && "code" in error
-        ? String((error as { code?: string }).code)
-        : "";
-    if (code === "EROFS" || code === "EACCES") {
-      throw new Error(
-        "This host is read-only. Add GITHUB_TOKEN (and optional GITHUB_REPO) in Vercel Environment Variables so admin can save templates to GitHub.",
-      );
-    }
-    throw error;
+  if (isVercelRuntime()) {
+    // Vercel app files are read-only; /tmp is writable without any token.
+    await writeToTmp(templates);
+    return;
   }
+
+  await writeToFilesystem(templates);
 }
 
 export type TemplateInput = {

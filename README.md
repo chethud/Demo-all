@@ -21,17 +21,11 @@ Set `ADMIN_PASSWORD` in `.env.local` (local) and in Vercel Environment Variables
 Templates are saved to `data/templates.json`.
 
 ### Hosted on Vercel
-Vercel’s filesystem is read-only. Admin add/delete needs a GitHub token:
+Admin add/delete works without a GitHub token (saves to Vercel’s writable `/tmp` + memory cache).
 
-1. Create a GitHub Personal Access Token with `repo` access to `chethud/Demo-all`
-2. In Vercel → Project → Settings → Environment Variables, add:
-   - `ADMIN_PASSWORD` = your admin password
-   - `GITHUB_TOKEN` = your token
-   - `GITHUB_REPO` = `chethud/Demo-all` (optional, this is the default)
-   - `GITHUB_BRANCH` = `main` (optional)
-3. Redeploy
+Set `ADMIN_PASSWORD` in Vercel Environment Variables, then redeploy.
 
-Admin changes then update `data/templates.json` in GitHub live.
+Optional: set `GITHUB_TOKEN` + `GITHUB_REPO` if you also want permanent writes into the GitHub `templates.json` file.
 
 Agency name / logo: edit `data/site.ts`.
 

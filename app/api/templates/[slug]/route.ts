@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
-import { deleteTemplate } from "@/lib/template-store";
+import { deleteTemplate, readTemplates } from "@/lib/template-store";
+
+export const dynamic = "force-dynamic";
 
 interface RouteProps {
   params: Promise<{ slug: string }>;
@@ -18,5 +20,6 @@ export async function DELETE(_request: Request, { params }: RouteProps) {
     return NextResponse.json({ error: "Template not found" }, { status: 404 });
   }
 
-  return NextResponse.json({ ok: true });
+  const templates = await readTemplates();
+  return NextResponse.json({ ok: true, templates });
 }
