@@ -78,5 +78,13 @@
     "description": "KSIC Mysore Silk institutional site — heritage, craft, GI-11 certification, and store network.",
     "vercelUrl": "https://ksic-1-demo.vercel.app/",
     "featured": false
+  },
+  {
+    "name": "Demo 11",
+    "slug": "pixel-perfection-studio",
+    "category": "Fashion & Clothing",
+    "description": "KSIC Mysore Silk — a legacy woven in silk. Heritage, craftsmanship, and signature weaves.",
+    "vercelUrl": "https://pixel-perfection-studio-791.lovable.app",
+    "featured": false
   }
 ]

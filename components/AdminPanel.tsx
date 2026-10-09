@@ -54,16 +54,17 @@ export function AdminPanel() {
     })();
   }, [loadSession, loadTemplates]);
 
-  const sorted = useMemo(
-    () =>
-      [...templates].sort((a, b) => {
-        const featuredDiff =
-          Number(Boolean(b.featured)) - Number(Boolean(a.featured));
-        if (featuredDiff !== 0) return featuredDiff;
-        return a.name.localeCompare(b.name);
-      }),
-    [templates],
-  );
+  const sorted = useMemo(() => {
+    const indexed = templates.map((template, index) => ({ template, index }));
+    indexed.sort((a, b) => {
+      const featuredDiff =
+        Number(Boolean(b.template.featured)) -
+        Number(Boolean(a.template.featured));
+      if (featuredDiff !== 0) return featuredDiff;
+      return a.index - b.index;
+    });
+    return indexed.map((item) => item.template);
+  }, [templates]);
 
   async function handleLogin(event: React.FormEvent) {
     event.preventDefault();

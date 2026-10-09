@@ -19,18 +19,6 @@ export function TemplateGallery({ templates }: TemplateGalleryProps) {
 
     async function refresh() {
       try {
-        const cached = localStorage.getItem(STORAGE_KEY);
-        if (cached) {
-          const parsed = JSON.parse(cached) as Template[];
-          if (Array.isArray(parsed) && parsed.length >= templates.length) {
-            if (!cancelled) setItems(parsed);
-          }
-        }
-      } catch {
-        /* ignore */
-      }
-
-      try {
         const res = await fetch("/api/templates", { cache: "no-store" });
         if (!res.ok) return;
         const data = (await res.json()) as { templates?: Template[] };
@@ -43,7 +31,15 @@ export function TemplateGallery({ templates }: TemplateGalleryProps) {
           }
         }
       } catch {
-        /* ignore */
+        try {
+          const cached = localStorage.getItem(STORAGE_KEY);
+          if (cached) {
+            const parsed = JSON.parse(cached) as Template[];
+            if (!cancelled && Array.isArray(parsed)) setItems(parsed);
+          }
+        } catch {
+          /* ignore */
+        }
       }
     }
 
