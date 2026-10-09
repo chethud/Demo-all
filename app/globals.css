@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f3efe6;
+  --foreground: #1a1a1a;
+  --charcoal: #1a1a1a;
+  --maroon: #6b1d2a;
+  --maroon-deep: #5a1823;
+  --cream: #f3efe6;
+  --ready: #dce8c8;
+  --ready-text: #3f5a2a;
+  --muted: #6b6b66;
+  --surface: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-charcoal: var(--charcoal);
+  --color-maroon: var(--maroon);
+  --color-maroon-deep: var(--maroon-deep);
+  --color-cream: var(--cream);
+  --color-ready: var(--ready);
+  --color-ready-text: var(--ready-text);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+}
+
+::selection {
+  background: rgba(107, 29, 42, 0.14);
+}

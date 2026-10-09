@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Demo 1",
+    "slug": "d",
+    "category": "Other",
+    "description": "Live website demo available for client preview.",
+    "vercelUrl": "https://ksic-website.vercel.app/",
+    "featured": false
+  },
+  {
+    "name": "Demo 2",
+    "slug": "v2-ksic",
+    "category": "Fashion & Clothing",
+    "description": "Mysore Silk heritage site — woven for generations, collections and atelier storytelling.",
+    "vercelUrl": "https://v2-ksic.vercel.app/",
+    "featured": false
+  }
+]
