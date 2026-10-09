@@ -22,5 +22,13 @@
     "description": "Live website demo available for client preview.",
     "vercelUrl": "https://ksicweb.vercel.app/",
     "featured": false
+  },
+  {
+    "name": "Demo 4",
+    "slug": "ksic-demo-3",
+    "category": "Other",
+    "description": "Live website demo available for client preview.",
+    "vercelUrl": "https://ksic-demo-3.vercel.app/",
+    "featured": false
   }
 ]
