@@ -222,7 +222,35 @@ export function AdminPanel() {
               : "border border-emerald-200 bg-emerald-50 text-emerald-800"
           }`}
         >
-          {error || message}
+          {error?.includes("GITHUB_TOKEN") || error?.includes("read-only") ? (
+            <div className="space-y-2">
+              <p className="font-medium">Admin save is blocked on Vercel</p>
+              <ol className="list-decimal space-y-1 pl-5 text-red-800/90">
+                <li>
+                  Create a GitHub token:{" "}
+                  <a
+                    className="underline"
+                    href="https://github.com/settings/tokens/new?scopes=repo&description=KSIC%20Demo%20Admin"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    github.com/settings/tokens
+                  </a>{" "}
+                  (enable <code className="rounded bg-white/70 px-1">repo</code>)
+                </li>
+                <li>
+                  In Vercel → Project → Settings → Environment Variables, add{" "}
+                  <code className="rounded bg-white/70 px-1">GITHUB_TOKEN</code>{" "}
+                  = that token, and{" "}
+                  <code className="rounded bg-white/70 px-1">GITHUB_REPO</code> ={" "}
+                  <code className="rounded bg-white/70 px-1">chethud/Demo-all</code>
+                </li>
+                <li>Redeploy the project, then try Add website again</li>
+              </ol>
+            </div>
+          ) : (
+            error || message
+          )}
         </div>
       )}
 
