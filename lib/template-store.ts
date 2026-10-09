@@ -67,11 +67,10 @@ export async function readTemplates(): Promise<Template[]> {
     return readTemplatesFromGitHub();
   }
 
-  if (globalThis.__ksicTemplatesCache) {
-    return globalThis.__ksicTemplatesCache;
-  }
-
   if (isVercelRuntime()) {
+    if (globalThis.__ksicTemplatesCache) {
+      return globalThis.__ksicTemplatesCache;
+    }
     const fromTmp = await readFromTmp();
     if (fromTmp) {
       globalThis.__ksicTemplatesCache = fromTmp;
@@ -79,6 +78,7 @@ export async function readTemplates(): Promise<Template[]> {
     }
   }
 
+  // Always re-read from disk locally so edits to templates.json apply immediately.
   const fromDisk = await readFromFilesystem();
   globalThis.__ksicTemplatesCache = fromDisk;
   return fromDisk;
