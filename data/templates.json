@@ -62,5 +62,21 @@
     "description": "Mysore Silk — woven for generations. Craft, collections, and heirloom storytelling.",
     "vercelUrl": "https://ksic-pi.vercel.app/",
     "featured": false
+  },
+  {
+    "name": "Demo 9",
+    "slug": "ksic-2-demo",
+    "category": "Fashion & Clothing",
+    "description": "Mysore Silk — woven for generations. Collections, journal, and royal heritage storytelling.",
+    "vercelUrl": "https://ksic-2-demo.vercel.app/",
+    "featured": false
+  },
+  {
+    "name": "Demo 10",
+    "slug": "ksic-1-demo",
+    "category": "Fashion & Clothing",
+    "description": "KSIC Mysore Silk institutional site — heritage, craft, GI-11 certification, and store network.",
+    "vercelUrl": "https://ksic-1-demo.vercel.app/",
+    "featured": false
   }
 ]
